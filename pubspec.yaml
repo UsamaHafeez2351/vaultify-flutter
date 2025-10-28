@@ -1,0 +1,39 @@
+name: vaultify
+description: "A beautiful Flutter password manager app."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  get: ^4.6.6
+
+  # For HTTP requests (API calls)
+  http: ^1.2.2
+
+  # Local storage (for saving token etc.)
+  get_storage: ^2.1.1
+
+  # Beautiful animations
+  animations: ^2.0.11
+
+  # For icons and UI
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+
+  # Optional (if you want some fancy loaders)
+  flutter_spinkit: ^5.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
