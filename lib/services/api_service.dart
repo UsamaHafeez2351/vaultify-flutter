@@ -183,4 +183,30 @@ class ApiService {
       return {'success': false, 'error': 'Failed to connect to server: $e'};
     }
   }
+
+  // Delete user account
+  Future<Map<String, dynamic>> deleteAccount(String token) async {
+    try {
+      final uri = Uri.parse('$base/delete-account');
+      print('Attempting to delete account');
+
+      final res = await http.delete(
+        uri,
+        headers: _headers(token),
+      ).timeout(const Duration(seconds: 10));
+
+      print('Delete account response: ${res.statusCode}');
+      print('Response body: ${res.body}');
+
+      if (res.statusCode == 200) {
+        return {'success': true, ...jsonDecode(res.body)};
+      } else {
+        final error = jsonDecode(res.body);
+        return {'success': false, 'error': error['error'] ?? 'Failed to delete account'};
+      }
+    } catch (e) {
+      print('Delete account error: $e');
+      return {'success': false, 'error': 'Failed to connect to server: $e'};
+    }
+  }
 }

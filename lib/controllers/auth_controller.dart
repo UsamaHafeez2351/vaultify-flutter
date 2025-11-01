@@ -9,6 +9,19 @@ class AuthController extends GetxController {
   var isLoading = false.obs;
   Rx<UserModel?> user = Rx<UserModel?>(null);
 
+  void _showSnack(String title, String message, {bool isError = false}) {
+    Get.snackbar(
+      title,
+      message,
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: isError ? Colors.redAccent : Colors.green,
+      colorText: Colors.white,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      borderRadius: 12,
+      duration: const Duration(seconds: 3),
+    );
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -50,10 +63,10 @@ class AuthController extends GetxController {
       print('Signup response: $res');
 
       if (res['message'] == 'User registered') {
-        Get.snackbar('Success', 'Account created successfully!');
+        _showSnack('Success', 'Account created successfully!');
         Get.offAllNamed(AppRoutes.login);
       } else {
-        Get.snackbar('Error', res['error'] ?? 'Signup failed');
+        _showSnack('Error', res['error'] ?? 'Signup failed', isError: true);
       }
     } catch (e) {
       print('Signup error: $e');
@@ -67,7 +80,7 @@ class AuthController extends GetxController {
 
       errorMessage += 'Please ensure your backend server is running on http://10.0.2.2:3000 (for emulator) or your PC\'s IP address (for physical device).';
 
-      Get.snackbar('Connection Error', errorMessage);
+      _showSnack('Connection Error', errorMessage, isError: true);
     } finally {
       isLoading.value = false;
     }
@@ -91,7 +104,7 @@ class AuthController extends GetxController {
         
         if (userData == null) {
           print('❌ ERROR: No user data in response!');
-          Get.snackbar('Error', 'Invalid server response');
+          _showSnack('Error', 'Invalid server response', isError: true);
           return;
         }
         
@@ -115,7 +128,7 @@ class AuthController extends GetxController {
         print('✅ User set in controller: ${user.value?.name}, ${user.value?.email}');
         Get.offAllNamed(AppRoutes.home);
       } else {
-        Get.snackbar('Error', res['error'] ?? 'Login failed');
+        _showSnack('Error', res['error'] ?? 'Login failed', isError: true);
       }
     } catch (e) {
       print('Login error: $e');
@@ -145,7 +158,7 @@ class AuthController extends GetxController {
       await box.remove('user_email');
       Get.offAllNamed(AppRoutes.login);
     } catch (e) {
-      Get.snackbar('Error', 'Failed to logout');
+      _showSnack('Error', 'Failed to logout', isError: true);
     }
   }
 
@@ -185,10 +198,7 @@ class AuthController extends GetxController {
         }
 
         print('Showing success message');
-        Get.snackbar('Success', 'Profile updated successfully!',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
+        _showSnack('Success', 'Profile updated successfully!');
       } else {
         // Backend failed, but let's still update locally for now
         print('Backend update failed, updating locally instead...');
@@ -204,13 +214,7 @@ class AuthController extends GetxController {
         }
 
         print('Showing success message (local update)');
-        Get.snackbar(
-          'Success',
-          'Profile updated successfully!',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          duration: Duration(seconds: 3),
-        );
+        _showSnack('Success', 'Profile updated successfully!');
       }
     } catch (e) {
       print('!!! Update profile error: $e');
@@ -238,7 +242,7 @@ class AuthController extends GetxController {
         );
       } catch (localError) {
         print('Local update also failed: $localError');
-        Get.snackbar('Error', 'Failed to update profile: ${e.toString().replaceAll('Exception: ', '')}');
+        _showSnack('Error', 'Failed to update profile: ${e.toString().replaceAll('Exception: ', '')}', isError: true);
         rethrow;
       }
     } finally {
@@ -260,15 +264,58 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       print('Forgot password error: $e');
-      Get.snackbar(
-        'Error',
-        'Failed to send password reset email: ${e.toString().replaceAll('Exception: ', '')}',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      _showSnack('Error', 'Failed to send password reset email: ${e.toString().replaceAll('Exception: ', '')}', isError: true);
       rethrow;
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      isLoading.value = true;
+      print('=== Starting account deletion ===');
+
+      final apiService = ApiService();
+      final box = GetStorage();
+      final token = box.read('token');
+      print('Token exists: ${token != null}');
+
+      if (token == null) {
+        throw Exception('Not authenticated');
+      }
+
+      print('Calling delete account API...');
+      final res = await apiService.deleteAccount(token);
+      print('API response: $res');
+
+      if (res['success'] == true) {
+        print('Account deleted successfully, clearing local data...');
+        
+        // Clear all user data from storage
+        await box.remove('token');
+        await box.remove('user_id');
+        await box.remove('user_name');
+        await box.remove('user_email');
+        
+        // Clear in-memory user
+        user.value = null;
+
+        print('Showing success message and navigating to login');
+        _showSnack('Account Deleted', 'Your account and all associated data have been permanently deleted');
+        
+        // Navigate to login screen
+        Get.offAllNamed(AppRoutes.login);
+      } else {
+        throw Exception(res['error'] ?? 'Failed to delete account');
+      }
+    } catch (e) {
+      print('!!! Delete account error: $e');
+      _showSnack('Error', 'Failed to delete account: ${e.toString().replaceAll('Exception: ', '')}', isError: true);
+      rethrow;
+    } finally {
+      isLoading.value = false;
+      print('=== Delete account completed ===');
     }
   }
 }

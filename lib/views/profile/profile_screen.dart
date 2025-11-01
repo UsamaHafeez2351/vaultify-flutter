@@ -641,13 +641,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () async {
                 // TODO: Implement delete account API
                 Get.back();
-                await authController.logout();
-                Get.snackbar(
-                  'Account Deleted',
-                  'Your account has been permanently deleted',
-                  backgroundColor: kAccentColorLight,
-                  colorText: Colors.white,
-                );
+                await authController.deleteAccount();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: kAccentColorLight,

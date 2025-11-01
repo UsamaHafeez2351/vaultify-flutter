@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-const String baseUrl = "http://192.168.18.79:3000"; // Your PC IP address for physical device
-// Updated to current WiFi IP address. Change this if your IP changes.
+const String baseUrl = "https://vaultify-backend-production.up.railway.app"; // Deployed backend URL on Railway
 
 const List<String> apiBasePaths = [
   "",       // No base path

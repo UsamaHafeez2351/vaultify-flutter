@@ -14,7 +14,7 @@ dependencies:
   # State Management
   get: ^4.6.6
 
-  # For HTTP requests (API calls)
+  # For HTTP requests (API  calls)
   http: ^1.2.2
 
   # Local storage (for saving token etc.)
@@ -34,7 +34,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  flutter_launcher_icons: ^0.13.1   # 👈 Added for app icon generation
+  flutter_launcher_icons: ^0.13.1   
 
 flutter:
   uses-material-design: true
