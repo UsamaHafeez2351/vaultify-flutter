@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void showPasswordDialog(BuildContext context, {bool isEdit = false, int? id, String? currentTitle, String? currentUsername, String? currentPassword}) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
-    // Reset password visibility when dialog opens
+    // Reset password visibility when dialog opens on screen
     _obscurePassword = true;
     
     if (isEdit && currentTitle != null && currentUsername != null && currentPassword != null) {
