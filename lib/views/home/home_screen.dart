@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-              // Header with gradient
+              // Header with gradient gradient
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
