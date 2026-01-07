@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 const String baseUrl = "https://vaultify-backend-production.up.railway.app"; // Deployed backend URL on Railway
 
 const List<String> apiBasePaths = [
-  "",       // No base path
+  "",       // No base path in this 
   "/api",   // Common API base
-  "/v1",    // Versioned API
-  "/rest",  // Alternative base
+  "/v1",    // Versioned API firsty version one 
+  "/rest",  // Alternative base hai ye 
 ];
 
 // Light Theme Colors
