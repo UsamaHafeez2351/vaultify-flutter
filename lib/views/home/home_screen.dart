@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       setDialogState: setDialogState,
                     ),
                     const SizedBox(height: 24),
-                    // Buttons
+                    // Buttons here 
                     Row(
                       children: [
                         Expanded(
@@ -430,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          // Body Content
+          // Body Content here
           SliverToBoxAdapter(
             child: Obx(() {
               if (passwordController.isLoading.value) {
@@ -555,7 +555,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Results count
+                    // Results count here
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
