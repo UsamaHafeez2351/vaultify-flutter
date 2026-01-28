@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print('🔄 Profile screen loaded, user data: ${authController.user.value?.name}, ${authController.user.value?.email}');
     });
   }
-
+//started widget here 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
