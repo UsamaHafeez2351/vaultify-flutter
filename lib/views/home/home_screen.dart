@@ -7,7 +7,7 @@ import '../../../utils/constants.dart';
 import '../../../routes/app_routes.dart';
 import '../widgets/password_card.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget { 
   HomeScreen({super.key});
 
   @override
