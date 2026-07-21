@@ -1,6 +1,6 @@
 // lib/views/home/home_screen.dart
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart'; 
 import '../../../controllers/password_controller.dart';
 import '../../../controllers/auth_controller.dart';
 import '../../../utils/constants.dart';
